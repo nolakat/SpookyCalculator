@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Majical Halloween Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+//Caculation Fun
+            //empty array to store calculations
+            var entries = [];
+            //starting total
+            var total = 0;
+            //empty temp variable to store number
+            var temp = '';
+
+
+    	//Get Value From Button Pressed 
+    	getInfo = function(button){
+    		     
+     
+    		//tests
+    		//console.log("Button Click!");
+        
+            var value = button.value; 
+            document.getElementById("calcDisplay").innerHTML += value;
+            //console.log("Button Value: " + value);
+
+
+            //If this is a number, add to temp. 
+             if(!isNaN(value)){
+             	//add value to temp holder
+             	temp += value;
+             }
+             //If this is a + or - push number from temp into 
+             //entries. Push operator in seperately. Clear temp for 
+             //next integer 
+             else if(value === '+' || value == '-'){
+             	//console.log("!!Addition Sign Hit!!");
+             	entries.push(temp);
+             	temp = '';
+             	entries.push(value);
+             }
+
+             //If you hit Clear. Clear everything!
+             else if(value === 'C'){
+             	entries = [];
+             	temp = '';
+             	total = 0;
+
+            document.getElementById("calcDisplay").innerHTML = '';
+             }
+
+             //If Equal is Hit. Push in number from temp 
+             //into entries. 
+
+              else if (value === '='){
+
+             	//console.log("!!Equal Sign Hit!");
+
+             	//if the equal sign is clicked
+             	//push the temp integer into entries 
+             	entries.push(temp);
+            
+             	//Number is a javascript function
+             	//that checks if parameter is a number
+             	//if it is not it returns 
+             	//NaN(Not a Number).
+             	var total = Number(entries[0]);
+
+             	//lets loop through the entries
+             	for(var i = 1; i < entries.length; i++){
+
+             		//set variable for next integer
+             		var nextNum = Number(entries[i+1]);
+
+             		//set current integer in loop
+             		var currentVar = entries[i];
+
+             		//if the current integer is a +, add the total
+             		//and next integers together.
+             		if(currentVar === '+'){
+             			total += nextNum;
+             		}
+             		//if the current integer is a -, subtract the current
+             		//and next integers together.
+             		else if(currentVar === '-'){
+             			total -= nextNum;
+             		}
+
+             		i++
+             	} //end for loop
+
+
+             //Grad the calcDisplay and display the total. 
+             document.getElementById("calcDisplay").innerHTML = total;
+             //$("#ghost").attr("class", "haunting");
+
+
+           
+
+            $("#ghost").addClass("haunting");
+            $("#ghost").one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(event){
+            	$(this).removeClass("haunting");
+            })
+            // document.getElementById("ghost").one(animationEvent, function(event){
+            // 	$(this).removeClass = "haunting";
+            // });
+
+
+             //clear the entries array
+             //console.log(entries);
+             temp = ' ';
+             entries = [];
+             }// end equal sign
+
+
+
+             	// Just to Check Things
+             	// console.log("Temp Value: " + temp);
+             	// console.log("Numbers Entered: " + entries);
+             	// console.log("total:" + total);
+
+
+    	}//end getInfo
+
+    	
+    </script>
+    <style>
+
+    *{
+    	outline: none !important;
+    }
+
+    body{
+    	background: black;
+    	font-family: 'Creepster', cursive;
+    	height: 100%;
+    	overflow:hidden;
+
+    }
+
+    .title{
+    	color: #fff;
+    	text-transform: uppercase;
+    	text-align:center;
+    	font-size: 4em;
+    	margin: 5px 0px;
+    }
+
+    #calcDisplay{
+    	background: rgba(257, 257, 257, .2);
+    	/*height: 100px;*/
+    	font-size: 3em;
+    	min-height: 72px;
+    	line-height: 1.5em;
+    	/*color: white;*/
+    }
+
+    .calcBody{
+    	background: rgba(257, 257, 257, .15);
+    	padding: 20px;
+    	width: 500px;
+    	margin: 0px auto;
+    }
+
+    .calcBody button{
+    	width: 100%;
+    	background: #000;
+    	color: #fff;
+    	font-size: 2em;
+    	border: 2px solid grey;
+    }
+
+    .calcBody button:active{
+    	border: 2px solid orange;
+
+    }
+
+    .calcBody button h5{
+    	margin: 10px auto;
+    }
+
+    
+
+    .buttonGroup{
+    	background: pink;
+    	margin: 0 auto;
+    	display: block;
+
+    }
+
+.st1{fill:#FFFFFF;opacity: 0.5;}
+
+#ghost{
+	width: 500px;
+	z-index: 5;
+	position:absolute;
+	left:0;
+	right:0;
+	margin: auto;
+	bottom: -400px;
+	opacity: 0;
+	pointer-events: none;
+	
+
+}
+
+.haunting{
+	animation-duration: 2s;
+	animation-name: floatUp;
+	display: block;
+
+
+}
+
+@keyframes floatUp{
+	from{
+	
+		opacity: 0;
+		display:block;
+		opacity: 0;
+
+
+	}
+
+	to{
+		bottom: 600px;
+		opacity: 1;
+		display:block;
+		opacity: 1;
+	}
+}
+
+</style>
+  </head>
+  <body>
+
+  
+
+<h3 class="title">Spooky Calculator!!</h3>
+
+    <table class="calcBody">
+    <tr>
+    	<td colspan="4"><div id="calcDisplay"></div></td>
+
+    </tr>
+    	<tr>
+   	<td><button onClick="getInfo(this)" value="1" class="green" id="buttonThing"><h5>1</h5></button></td>
+  	<td><button onClick="getInfo(this)" value="2" class="green"><h5>2</h5></button></td>
+  	<td><button onClick="getInfo(this)" value="3" class="green"><h5>3</h5></button></td>
+  	<td><button onClick="getInfo(this)" value="+"><h5>+</h5></button></td>
+  </tr>
+  <tr>
+  	<td><button onClick="getInfo(this)" value="4"><h5>4</h5></button></td>
+  	<td><button onClick="getInfo(this)" value="5"><h5>5</h5></button></td>
+  	<td><button onClick="getInfo(this)" value="6"><h5>6</h5></button></td>
+  	<td><button onClick="getInfo(this)" value="-"><h5>-</h5></button></td>
+  </tr>
+  <tr>
+  	<td><button onClick="getInfo(this)" value="7"><h5>7</h5></button></td>
+    <td><button onClick="getInfo(this)" value="8"><h5>8</h5></button></td>
+    <td><button onClick="getInfo(this)" value="9"><h5>9</h5></button></td>
+  	<td><button onClick="getInfo(this)" value="0"><h5>0</h5></button></td>
+  </tr>
+  <tr>
+  	<td colspan="2"><button onClick="getInfo(this)" value="="><h5>=</h5></button></td>
+  	<td colspan="2"><button onClick="getInfo(this)" value="C"><h5>C</h5></button></td>
+  </tr>
+  </table>
+
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg id="ghost" class="" version="1.1" x="0px" y="0px" viewBox="0 0 1216.7 1500" >
+
+		<path id="first-ghost" class="st1" d="M208.5,16.2C101,16.2,14,103.3,14,210.7V483l38.9-58.3L91.8,483l38.9-58.3l38.9,58.3l38.9-58.3l38.9,58.3
+			l38.9-58.3l38.7,58.3l38.9-58.3L403,483V210.7C402.9,103.3,315.9,16.2,208.5,16.2z M120.9,230.2c-26.9,0-48.6-26.1-48.6-58.3
+			s21.8-58.3,48.6-58.3s48.6,26.1,48.6,58.3S147.8,230.2,120.9,230.2z M208.5,366.3c-21.5,0-38.9-17.5-38.9-38.9
+			c0-21.5,17.4-38.9,38.9-38.9s38.9,17.5,38.9,38.9C247.4,348.9,229.9,366.3,208.5,366.3z M296,230.2c-26.9,0-48.6-26.1-48.6-58.3
+			s21.8-58.3,48.6-58.3s48.6,26.1,48.6,58.3S322.8,230.2,296,230.2z"/>
+
+			<use xlink:href="#first-ghost" transform="translate(600 150)" />
+
+</svg>
+
+  	
+  </body>
+  <script>
+  		var colors = ['#ffffff', '#000000', '#cccccc'];
+    	var random_color = colors[Math.floor(Math.random() * colors.length)];
+    	document.getElementById("calcDisplay").style.color = random_color;
+  </script>
+</html>
